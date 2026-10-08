@@ -49,6 +49,20 @@ main {
   color: blue;
 }
 
+#reload-products {
+  background-color: blue;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#reload-products[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (min-width: 40rem) {
   #product-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
