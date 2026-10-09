@@ -2,6 +2,7 @@ const productList = document.getElementById("product-list");
 const productStatus = document.getElementById("product-status");
 const reloadButton = document.getElementById("reload-products");
 const productSearch = document.getElementById("product-search");
+const productCategory = document.getElementById("product-category");
 
 let isLoading = false;
 let allProducts = null;
@@ -30,6 +31,12 @@ async function loadProducts() {
     const data = await response.json();
 
     allProducts = data.products;
+
+    const categories = [
+      ...new Set(allProducts.map((product) => product.category)),
+    ];
+
+    renderCategoryOptions(categories);
     applyProductFilters();
   } catch (error) {
     console.error(error);
@@ -42,6 +49,7 @@ async function loadProducts() {
 
 reloadButton.addEventListener("click", loadProducts);
 productSearch.addEventListener("input", applyProductFilters);
+productCategory.addEventListener("change", applyProductFilters);
 
 function applyProductFilters() {
   if (allProducts === null) {
@@ -49,9 +57,15 @@ function applyProductFilters() {
   }
 
   const searchItem = productSearch.value.trim().toLowerCase();
+  const selectedCategory = productCategory.value;
 
   const filteredProducts = allProducts.filter((product) => {
-    return product.title.toLowerCase().includes(searchItem);
+    const matchesSearch = product.title.toLowerCase().includes(searchItem);
+
+    const matchesCategory =
+      selectedCategory === "" || product.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
   });
 
   renderProducts(filteredProducts);
@@ -83,6 +97,32 @@ function renderProducts(products) {
 
     li.append(img, heading, price);
     productList.append(li);
+  }
+}
+
+function renderCategoryOptions(categories) {
+  const selectedCategory = productCategory.value;
+
+  productCategory.replaceChildren();
+
+  const allOption = document.createElement("option");
+  allOption.value = "";
+  allOption.textContent = "All categories";
+  productCategory.append(allOption);
+
+  for (const category of categories) {
+    const option = document.createElement("option");
+
+    option.value = category;
+    option.textContent = category.replaceAll("-", " ");
+
+    productCategory.append(option);
+  }
+
+  if (categories.includes(selectedCategory)) {
+    productCategory.value = selectedCategory;
+  } else {
+    productCategory.value = "";
   }
 }
 

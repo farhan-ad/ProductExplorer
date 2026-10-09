@@ -63,12 +63,14 @@ main {
   cursor: not-allowed;
 }
 
-label[for="product-search"] {
+label[for="product-search"],
+label[for="product-category"] {
   display: block;
   margin-bottom: 0.4rem;
 }
 
-#product-search {
+#product-search,
+#product-category {
   display: block;
   width: 100%;
   max-width: 28rem;
