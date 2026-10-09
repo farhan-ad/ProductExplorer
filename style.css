@@ -63,6 +63,23 @@ main {
   cursor: not-allowed;
 }
 
+label[for="product-search"] {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+#product-search {
+  display: block;
+  width: 100%;
+  max-width: 28rem;
+  font: inherit;
+  box-sizing: border-box;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 @media (min-width: 40rem) {
   #product-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
