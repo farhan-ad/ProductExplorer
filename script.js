@@ -3,6 +3,7 @@ const productStatus = document.getElementById("product-status");
 const reloadButton = document.getElementById("reload-products");
 const productSearch = document.getElementById("product-search");
 const productCategory = document.getElementById("product-category");
+const productSort = document.getElementById("product-sort");
 
 let isLoading = false;
 let allProducts = null;
@@ -50,6 +51,7 @@ async function loadProducts() {
 reloadButton.addEventListener("click", loadProducts);
 productSearch.addEventListener("input", applyProductFilters);
 productCategory.addEventListener("change", applyProductFilters);
+productSort.addEventListener("change", applyProductFilters);
 
 function applyProductFilters() {
   if (allProducts === null) {
@@ -67,6 +69,14 @@ function applyProductFilters() {
 
     return matchesSearch && matchesCategory;
   });
+
+  const sortOption = productSort.value;
+
+  if (sortOption === "price-asc") {
+    filteredProducts.sort((a, b) => a.price - b.price);
+  } else if (sortOption === "price-desc") {
+    filteredProducts.sort((a, b) => b.price - a.price);
+  }
 
   renderProducts(filteredProducts);
 

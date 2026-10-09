@@ -64,13 +64,15 @@ main {
 }
 
 label[for="product-search"],
-label[for="product-category"] {
+label[for="product-category"],
+label[for="product-sort"] {
   display: block;
   margin-bottom: 0.4rem;
 }
 
 #product-search,
-#product-category {
+#product-category,
+#product-sort {
   display: block;
   width: 100%;
   max-width: 28rem;
