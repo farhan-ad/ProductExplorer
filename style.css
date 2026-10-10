@@ -49,7 +49,8 @@ main {
   color: blue;
 }
 
-#reload-products {
+#reload-products,
+#reload-product {
   background-color: blue;
   color: white;
   padding: 0.6rem 1rem;
@@ -58,9 +59,14 @@ main {
   cursor: pointer;
 }
 
-#reload-products[aria-disabled="true"] {
+#reload-products,
+#reload-product[aria-disabled="true"] {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+#reload-product {
+  margin-bottom: 1rem;
 }
 
 label[for="product-search"],
@@ -84,8 +90,44 @@ label[for="product-sort"] {
   margin-bottom: 1rem;
 }
 
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.product-detail img {
+  width: 100%;
+  height: 20rem;
+  object-fit: contain;
+}
+
+.product-detail-info {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+}
+
+.product-detail-info h3 {
+  margin-top: 0;
+}
+
+.product-price {
+  color: blue;
+  font-weight: 700;
+}
+
 @media (min-width: 40rem) {
   #product-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-detail {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

@@ -100,7 +100,10 @@ function renderProducts(products) {
     img.alt = product.title;
 
     const heading = document.createElement("h3");
-    heading.textContent = product.title;
+    const link = document.createElement("a");
+    link.href = `product.html?id=${product.id}`;
+    link.textContent = product.title;
+    heading.append(link);
 
     const price = document.createElement("p");
     price.textContent = `Price: ${product.price}`;
