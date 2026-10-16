@@ -106,7 +106,8 @@ function renderProducts(products) {
     heading.append(link);
 
     const price = document.createElement("p");
-    price.textContent = `Price: ${product.price}`;
+    const priceInPaise = Math.round(product.price * 100);
+    price.textContent = `Price: ${currencyFormatter.format(priceInPaise / 100)}`;
 
     li.append(img, heading, price);
     productList.append(li);

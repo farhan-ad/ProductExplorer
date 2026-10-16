@@ -50,7 +50,8 @@ main {
 }
 
 #reload-products,
-#reload-product {
+#reload-product,
+.blue-button {
   background-color: blue;
   color: white;
   padding: 0.6rem 1rem;
@@ -59,7 +60,7 @@ main {
   cursor: pointer;
 }
 
-#reload-products,
+#reload-products[aria-disabled="true"],
 #reload-product[aria-disabled="true"] {
   opacity: 0.6;
   cursor: not-allowed;
@@ -122,6 +123,89 @@ label[for="product-sort"] {
   font-weight: 700;
 }
 
+#cart-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  min-width: 0;
+}
+
+.cart-item img {
+  width: 100%;
+  max-width: 10rem;
+  height: 10rem;
+  object-fit: contain;
+  justify-self: center;
+}
+
+.cart-item-info {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.cart-item-info > a {
+  font-weight: 700;
+}
+
+.cart-quantity-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-quantity-controls p {
+  margin: 0;
+}
+
+.cart-item button {
+  font: inherit;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  min-height: 2.75rem;
+  background-color: #f9fafb;
+  color: #222;
+  cursor: pointer;
+}
+
+.cart-item button:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.cart-item button[aria-disabled="true"] {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.cart-item button.cart-remove {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+#cart-total {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
 @media (min-width: 40rem) {
   #product-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -129,6 +213,11 @@ label[for="product-sort"] {
 
   .product-detail {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cart-item {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    align-items: center;
   }
 }
 

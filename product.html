@@ -6,12 +6,17 @@
     <title>Product details</title>
 
     <link rel="stylesheet" href="style.css" />
+    <script src="cart.js" defer></script>
     <script src="product.js" defer></script>
   </head>
   <body>
     <header>
       <h1>Product Explorer</h1>
       <p>Explore and discover products easily.</p>
+
+      <nav>
+        <a href="cart.html">Cart</a>
+      </nav>
     </header>
 
     <main>
@@ -22,6 +27,8 @@
       <button id="reload-product" type="button" hidden>Reload product</button>
 
       <div id="product-details"></div>
+
+      <p id="cart-status" role="status"></p>
 
       <a href="index.html">Back to products</a>
     </main>

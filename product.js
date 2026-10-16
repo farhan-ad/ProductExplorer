@@ -4,6 +4,7 @@ const productId = params.get("id");
 const detailStatus = document.getElementById("detail-status");
 const productDetails = document.getElementById("product-details");
 const reloadProductButton = document.getElementById("reload-product");
+const cartStatus = document.getElementById("cart-status");
 
 let isLoadingDetails = false;
 
@@ -30,6 +31,7 @@ async function loadProductDetails() {
   reloadProductButton.setAttribute("aria-disabled", "true");
 
   productDetails.replaceChildren();
+  cartStatus.textContent = "";
   detailStatus.textContent = "Loading product...";
 
   try {
@@ -62,6 +64,8 @@ async function loadProductDetails() {
 function renderProductDetails(product) {
   productDetails.replaceChildren();
 
+  cartStatus.textContent = "";
+
   const article = document.createElement("article");
   article.classList.add("product-detail");
 
@@ -77,7 +81,8 @@ function renderProductDetails(product) {
 
   const price = document.createElement("p");
   price.classList.add("product-price");
-  price.textContent = `Price: ${product.price}`;
+  const priceInPaise = Math.round(product.price * 100);
+  price.textContent = `Price: ${currencyFormatter.format(priceInPaise / 100)}`;
 
   const description = document.createElement("p");
   description.textContent = `Description: ${product.description}`;
@@ -91,7 +96,33 @@ function renderProductDetails(product) {
   const stock = document.createElement("p");
   stock.textContent = `Stock: ${product.stock}`;
 
-  info.append(heading, price, description, category, rating, stock);
+  const addToCartButton = document.createElement("button");
+  addToCartButton.type = "button";
+  addToCartButton.classList.add("blue-button");
+  addToCartButton.textContent = "Add to Cart";
+
+  addToCartButton.addEventListener("click", () => {
+    const saved = addToCart(product);
+
+    if (saved) {
+      cartStatus.textContent = "Added to cart.";
+    } else if (cartLoadFailed) {
+      cartStatus.textContent =
+        "Couldn't load your saved cart. Changes weren't saved.";
+    } else {
+      cartStatus.textContent = "Couldn't save your cart. Please try again.";
+    }
+  });
+
+  info.append(
+    heading,
+    price,
+    description,
+    category,
+    rating,
+    stock,
+    addToCartButton,
+  );
   article.append(image, info);
   productDetails.append(article);
 }
