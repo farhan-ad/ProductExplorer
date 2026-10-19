@@ -1,5 +1,9 @@
 # Product Explorer
 
+## Live demo
+
+[Open Product Explorer](https://farhan-ad.github.io/ProductExplorer/)
+
 ## Overview
 Product Explorer is a small product catalogue where you can browse products from DummyJSON and inspect their details. You can filter and sort the catalogue, then add products to a cart that stays saved in your browser between visits.
 
