@@ -10,9 +10,16 @@
     <script src="cart-page.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>Product Explorer</h1>
-      <p>Explore and discover products easily.</p>
+    <header class="site-header">
+      <div class="site-brand">
+        <h1><a href="index.html">Product Explorer</a></h1>
+        <p>Explore and discover products easily.</p>
+      </div>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Shop</a>
+        <a href="cart.html" aria-current="page">Cart</a>
+      </nav>
     </header>
 
     <main>
@@ -22,7 +29,9 @@
       <ul id="cart-list"></ul>
       <p id="cart-total" hidden></p>
 
-      <a id="continue-shopping" href="index.html">Continue shopping</a>
+      <a id="continue-shopping" href="index.html" class="back-link"
+        >Continue shopping</a
+      >
     </main>
   </body>
 </html>

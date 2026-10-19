@@ -101,6 +101,7 @@ function renderCart() {
     const priceInPaise = Math.round(item.price * 100);
 
     const price = document.createElement("p");
+    price.classList.add("cart-unit-price");
     price.textContent = `Unit price: ${currencyFormatter.format(priceInPaise / 100)}`;
 
     const quantityControls = document.createElement("div");
@@ -157,6 +158,7 @@ function renderCart() {
     const lineTotalPaise = priceInPaise * item.quantity;
 
     const lineTotal = document.createElement("p");
+    lineTotal.classList.add("cart-line-total");
     lineTotal.textContent = `Line Total: ${currencyFormatter.format(lineTotalPaise / 100)}`;
 
     quantityControls.append(quantity, decreasedButton, increaseButton);
