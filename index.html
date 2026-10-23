@@ -51,6 +51,42 @@
       </div>
 
       <p id="product-status" role="status"></p>
+
+      <div
+        class="price-range-filters"
+        role="group"
+        aria-label="Filter product by price range"
+      >
+        <div class="filter-field">
+          <label for="product-min-price">Minimum price (₹)</label>
+          <input
+            id="product-min-price"
+            type="number"
+            min="0"
+            step=".01"
+            inputmode="decimal"
+            placeholder="No minimum"
+            aria-describedby="price-filter-error"
+          />
+        </div>
+        <div class="filter-field">
+          <label for="product-max-price">Maximum price (₹)</label>
+          <input
+            id="product-max-price"
+            type="number"
+            min="0"
+            step=".01"
+            inputmode="decimal"
+            placeholder="No maximum"
+            aria-describedby="price-filter-error"
+          />
+        </div>
+
+        <button id="clear-price-range" type="button">Clear price range</button>
+
+        <p id="price-filter-error" class="filter-error" role="alert" hidden></p>
+      </div>
+
       <button id="reload-products" type="button">Reload products</button>
 
       <ul id="product-list"></ul>

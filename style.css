@@ -217,7 +217,9 @@ main {
 
 #product-search,
 #product-category,
-#product-sort {
+#product-sort,
+#product-min-price,
+#product-max-price {
   display: block;
   width: 100%;
   font: inherit;
@@ -232,6 +234,8 @@ main {
 #product-search:focus-visible,
 #product-category:focus-visible,
 #product-sort:focus-visible,
+#product-min-price:focus-visible,
+#product-max-price:focus-visible,
 #reload-products:focus-visible,
 #reload-product:focus-visible,
 .blue-button:focus-visible {
@@ -436,13 +440,68 @@ main {
   gap: 1rem;
 }
 
-.filter-field {
+.price-range-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.price-range-filters .filter-field {
   min-width: 0;
+}
+
+.price-range-filters input {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+#product-min-price[aria-invalid="true"],
+#product-max-price[aria-invalid="true"] {
+  border-color: #b91c1c;
+}
+
+.price-range-filters .filter-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.9rem;
 }
 
 .filter-field label {
   display: block;
   margin-bottom: 0.4rem;
+}
+
+#clear-price-range {
+  justify-self: start;
+  align-self: end;
+  min-height: 2.75rem;
+  padding: 0.6rem 1rem;
+  font: inherit;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+}
+
+#clear-price-range:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+#clear-price-range:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 @media (min-width: 40rem) {
@@ -467,6 +526,14 @@ main {
     grid-template-columns: 10rem minmax(0, 1fr);
     align-items: center;
   }
+
+  .price-range-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .price-range-filters .filter-error {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (min-width: 64rem) {
@@ -480,5 +547,9 @@ main {
 
   #product-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .price-range-filters {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
   }
 }

@@ -4,6 +4,10 @@ const reloadButton = document.getElementById("reload-products");
 const productSearch = document.getElementById("product-search");
 const productCategory = document.getElementById("product-category");
 const productSort = document.getElementById("product-sort");
+const productMinPrice = document.getElementById("product-min-price");
+const productMaxPrice = document.getElementById("product-max-price");
+const clearPriceRangeButton = document.getElementById("clear-price-range");
+const priceFilterError = document.getElementById("price-filter-error");
 
 let isLoading = false;
 let allProducts = null;
@@ -13,11 +17,9 @@ async function loadProducts() {
     return;
   }
 
-  allProducts = null;
   isLoading = true;
   reloadButton.setAttribute("aria-disabled", "true");
 
-  productList.replaceChildren();
   productStatus.textContent = "Loading Products...";
 
   try {
@@ -38,6 +40,7 @@ async function loadProducts() {
     ];
 
     renderCategoryOptions(categories);
+    productStatus.textContent = "";
     applyProductFilters();
   } catch (error) {
     console.error(error);
@@ -52,11 +55,84 @@ reloadButton.addEventListener("click", loadProducts);
 productSearch.addEventListener("input", applyProductFilters);
 productCategory.addEventListener("change", applyProductFilters);
 productSort.addEventListener("change", applyProductFilters);
+productMinPrice.addEventListener("input", applyProductFilters);
+productMaxPrice.addEventListener("input", applyProductFilters);
+clearPriceRangeButton.addEventListener("click", () => {
+  productMinPrice.value = "";
+  productMaxPrice.value = "";
+
+  priceFilterError.textContent = "";
+  priceFilterError.hidden = true;
+
+  productMinPrice.removeAttribute("aria-invalid");
+  productMaxPrice.removeAttribute("aria-invalid");
+
+  applyProductFilters();
+});
 
 function applyProductFilters() {
   if (allProducts === null) {
     return;
   }
+
+  const minText = productMinPrice.value.trim();
+  const maxText = productMaxPrice.value.trim();
+
+  const minHasBadInput = productMinPrice.validity.badInput;
+  const maxHasBadInput = productMaxPrice.validity.badInput;
+
+  const minPrice = minText === "" ? null : Number(minText);
+  const maxPrice = maxText === "" ? null : Number(maxText);
+
+  const invalidMin =
+    minHasBadInput ||
+    (minPrice !== null && (!Number.isFinite(minPrice) || minPrice < 0));
+  const invalidMax =
+    maxHasBadInput ||
+    (maxPrice !== null && (!Number.isFinite(maxPrice) || maxPrice < 0));
+
+  const invalidRange =
+    !invalidMin &&
+    !invalidMax &&
+    maxPrice !== null &&
+    minPrice !== null &&
+    minPrice > maxPrice;
+
+  let errorMessage = "";
+
+  if (minHasBadInput) {
+    errorMessage = "Finish entering a valid minimum price.";
+  } else if (maxHasBadInput) {
+    errorMessage = "Finish entering a valid maximum price.";
+  } else if (invalidMin) {
+    errorMessage = "Minimum price must be a valid amount of zero or greater.";
+  } else if (invalidMax) {
+    errorMessage = "Maximum price must be a valid amount of zero or greater.";
+  } else if (invalidRange) {
+    errorMessage = "Minimum price must not exceed maximum price.";
+  }
+
+  if (errorMessage) {
+    priceFilterError.textContent = errorMessage;
+    priceFilterError.hidden = false;
+
+    productMinPrice.setAttribute(
+      "aria-invalid",
+      String(invalidMin || invalidRange),
+    );
+    productMaxPrice.setAttribute(
+      "aria-invalid",
+      String(invalidMax || invalidRange),
+    );
+
+    return;
+  }
+
+  priceFilterError.textContent = "";
+  priceFilterError.hidden = true;
+
+  productMinPrice.removeAttribute("aria-invalid");
+  productMaxPrice.removeAttribute("aria-invalid");
 
   const searchItem = productSearch.value.trim().toLowerCase();
   const selectedCategory = productCategory.value;
@@ -67,7 +143,12 @@ function applyProductFilters() {
     const matchesCategory =
       selectedCategory === "" || product.category === selectedCategory;
 
-    return matchesSearch && matchesCategory;
+    const matchesMinPrice = minPrice === null || product.price >= minPrice;
+    const matchesMaxPrice = maxPrice === null || product.price <= maxPrice;
+
+    return (
+      matchesSearch && matchesCategory && matchesMinPrice && matchesMaxPrice
+    );
   });
 
   const sortOption = productSort.value;
